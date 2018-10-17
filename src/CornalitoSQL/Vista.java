@@ -19,7 +19,7 @@ public class Vista extends javax.swing.JFrame {
     public Vista() {
         initComponents();
         //Genero nuevo modelo para la tabla
-        ConexionVersionado conexion = new ConexionVersionado();
+        ConexionCornalitoSQL conexion = new ConexionCornalitoSQL();
         try{
             
             DefaultTableModel modelo = new DefaultTableModel();
@@ -120,7 +120,7 @@ public class Vista extends javax.swing.JFrame {
 
     private void botonBuscaNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscaNombreActionPerformed
         try{
-            ConexionVersionado conexion = new ConexionVersionado();
+            ConexionCornalitoSQL conexion = new ConexionCornalitoSQL();
             DefaultTableModel modelo = new DefaultTableModel();
             String[] registros = new String[6];
             Statement stmt = conexion.conectar().createStatement();

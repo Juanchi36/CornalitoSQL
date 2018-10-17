@@ -5,7 +5,7 @@ package CornalitoSQL;
  *
  * @author juanm
  */
-public class Versionado {
+public class CornalitoSQL {
 
     /**
      * @param args the command line arguments

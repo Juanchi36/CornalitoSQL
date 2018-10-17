@@ -9,9 +9,9 @@ package CornalitoSQL;
  *
  * @author juanm
  */
-public class ConexionVersionado {
+public class ConexionCornalitoSQL {
      private String url, nombre, clave;
-    public ConexionVersionado (){
+    public ConexionCornalitoSQL (){
         this.url = "jdbc:mysql://localhost/estudiantes";
         this.nombre="root";
         this.clave="";
