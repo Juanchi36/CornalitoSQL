@@ -1,5 +1,5 @@
 
-package versionado;
+package CornalitoSQL;
 
 /**
  *
