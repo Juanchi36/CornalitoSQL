@@ -6,13 +6,18 @@
 package CornalitoSQL;
 
 import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
 
 
-public class Vista extends javax.swing.JFrame {
 
+
+public class Vista extends javax.swing.JFrame {
+   
     /**
      * Creates new form Vista
      */
@@ -36,11 +41,28 @@ public class Vista extends javax.swing.JFrame {
             Object [][] datos = {};
             jTableBase.setModel(new javax.swing.table.DefaultTableModel(datos, campos));
             
-            System.out.println(campos);
+            
+            //System.out.println(metadata2);
         }catch(SQLException ex){
             System.out.println(ex);
         }
-        
+        try{
+            jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+            Statement stmt = conexion.conectar().createStatement();
+            java.sql.ResultSet consulta = stmt.executeQuery("SHOW DATABASES;");
+            java.sql.ResultSetMetaData metadata = consulta.getMetaData();
+            jComboBox1.removeAllItems();
+            while(consulta.next()){
+                jComboBox1.addItem(consulta.getString(1));
+            }
+            System.out.println(consulta.getArray(1));
+            
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+         
+ 
+ 
         
     }
 
@@ -58,6 +80,8 @@ public class Vista extends javax.swing.JFrame {
         buscaNombre = new javax.swing.JTextField();
         botonBuscaNombre = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,71 +109,91 @@ public class Vista extends javax.swing.JFrame {
 
         jLabel1.setText("Buscar por nombre");
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel2.setText("Seleccionar Base de Datos");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(buscaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonBuscaNombre)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(buscaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botonBuscaNombre)
+                .addGap(28, 28, 28))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 63, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buscaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonBuscaNombre))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botonBuscaNombre)
+                        .addComponent(buscaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonBuscaNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscaNombreActionPerformed
+        String[] campos = new String[6];
+        modelo = new DefaultTableModel(null,campos);
+
         try{
-            ConexionCornalitoSQL conexion = new ConexionCornalitoSQL();
-            DefaultTableModel modelo = new DefaultTableModel();
             String[] registros = new String[6];
-            Statement stmt = conexion.conectar().createStatement();
-            java.sql.ResultSet consulta = stmt.executeQuery("SELECT * FROM estudiantes;");
-            java.sql.ResultSetMetaData metadata = consulta.getMetaData();
-            String[] campos = {metadata.getColumnLabel(1),
-                               metadata.getColumnLabel(2),
-                               metadata.getColumnLabel(3),
-                               metadata.getColumnLabel(4),
-                               metadata.getColumnLabel(5),
-                               metadata.getColumnLabel(6)};
-            while(consulta.next()){
-                registros[0]=consulta.getString(1);
-                registros[1]=consulta.getString(2);
-                registros[2]=consulta.getString(3);
-                registros[3]=consulta.getString(4);
-                registros[4]=consulta.getString(5);
-                registros[5]=consulta.getString(6);
-                
-                modelo.addRow(registros);
-                modelo.setColumnIdentifiers(campos);
-            }
-            Object [][] datos = {};
-            jTableBase.setModel(modelo);
+            Statement stmt = this.conectar().createStatement();
+            ResultSet consulta = stmt.executeQuery("SELECT * FROM estudiantes"
+                    + " where nombre like '%" + buscaNombre.getText() 
+                    + "%';");
             
-            System.out.println(campos);
-        }catch(SQLException ex){
+            while (consulta.next()) {
+                registros[0] = consulta.getString(1);
+                System.out.println(consulta.getString(1));
+                registros[1] = consulta.getString(2);
+                
+                registros[2] = consulta.getString(3);
+                registros[3] = consulta.getString(4);
+                registros[4] = consulta.getString(5);
+                registros[5] = consulta.getString(6);
+
+                modelo.addRow(registros);
+            }
+            ResultSetMetaData metadata = consulta.getMetaData();
+            campos [0] = metadata.getColumnLabel(1);
+            campos [1] = metadata.getColumnLabel(2);
+            campos [2] = metadata.getColumnLabel(3);
+            campos [3] = metadata.getColumnLabel(4);
+            campos [4] = metadata.getColumnLabel(5);
+            campos [5] = metadata.getColumnLabel(6);
+
+            
+            modelo.setColumnIdentifiers(campos);
+            
+            
+        } catch (SQLException ex) {
             System.out.println(ex);
         }
+        
+        jTableBase.setModel(modelo);
+
     }//GEN-LAST:event_botonBuscaNombreActionPerformed
 
     /**
@@ -186,14 +230,29 @@ public class Vista extends javax.swing.JFrame {
             }
         });
     }
-    
+    private Connection conectar() {
+        Connection conec = null;
+        try {
+            conec = DriverManager.getConnection("jdbc:mysql://localhost/estudiantes", "root", "");
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return conec;
+    }
+   
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscaNombre;
     private javax.swing.JTextField buscaNombre;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableBase;
     // End of variables declaration//GEN-END:variables
+DefaultTableModel modelo;
+
+
 }
+
